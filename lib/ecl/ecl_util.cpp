@@ -671,6 +671,8 @@ bool ecl_util_unified_file(const char *filename) {
 bool ecl_util_fmt_file(const char *filename , bool * __fmt_file) {
   /*const int min_size = 32768;*/
   const int min_size = 256; /* Veeeery small */
+  printf(filename);
+  printf("\n");
 
   int report_nr;
   ecl_file_enum file_type;
@@ -682,13 +684,21 @@ bool ecl_util_fmt_file(const char *filename , bool * __fmt_file) {
     if (file_type == ECL_OTHER_FILE) {
       if (util_file_size(filename) > min_size)
         fmt_file = util_fmt_bit8(filename);
-      else
+      else {
+        printf("found file but did not understand extension\n");
+        printf(filename);
+        printf("\n");
         status = false; // Do not know ??
+      }
     }
   } else {
     file_type = ecl_util_get_file_type(filename , &fmt_file , &report_nr);
-    if (file_type == ECL_OTHER_FILE)
+    if (file_type == ECL_OTHER_FILE){
+      printf("Did not find file and did not understand extension\n");
+      printf(filename);
+      printf("\n");
       status = false; // Do not know ??
+    }
   }
 
   *__fmt_file = fmt_file;
